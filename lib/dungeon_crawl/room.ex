@@ -1,5 +1,6 @@
 defmodule DungeonCrawl.Room do
   alias DungeonCrawl.Room
+  alias DungeonCrawl.Room.Triggers.{Enemy, Exit}
 
   import DungeonCrawl.Room.Action
 
@@ -10,7 +11,22 @@ defmodule DungeonCrawl.Room do
       %Room{
         description: "You can see the light of day. You found the exit!",
         actions: [forward()],
-        trigger: Triggers.Exit
+        trigger: Exit
+      },
+      %Room{
+        description: "A enemy is blocking your path.",
+        actions: [forward()],
+        trigger: Enemy
+      },
+      %Room{
+        description: "A enemy is blocking your path.",
+        actions: [forward()],
+        trigger: Enemy
+      },
+      %Room{
+        description: "A enemy is blocking your path.",
+        actions: [forward()],
+        trigger: Enemy
       },
     ]
   end

@@ -3,6 +3,7 @@ defmodule DungeonCrawl.CLI.Main do
   alias DungeonCrawl.CLI.HeroChoice
   alias DungeonCrawl.CLI.RoomActionsChoice
   alias DungeonCrawl.Room
+  alias DungeonCrawl.Character
 
   def start_game do
     welcome_message()
@@ -16,10 +17,20 @@ defmodule DungeonCrawl.CLI.Main do
     Shell.info("You need to survive and find the exit")
   end
 
+  def move(%{hit_points: 0}, _) do
+    Shell.prompt("")
+    Shell.info("You are severly wounded, you can't keep walking.")
+    Shell.info("With no strength left, you fall onto the ground.")
+    Shell.info("Game over! ")
+    Shell.prompt("")
+  end
+
   def move(character, rooms) do
     Shell.info("You keep moving to the next room")
     Shell.prompt("Press enter to continue")
     Shell.cmd("clear")
+
+    Shell.info("#{Character.display_stats(character)}")
 
     rooms
     |> Enum.random
@@ -28,7 +39,10 @@ defmodule DungeonCrawl.CLI.Main do
     |> handle_action_result
   end
 
-  defp hero_choice, do: HeroChoice.start()
+  defp hero_choice do
+    chosen_hero = HeroChoice.start()
+    %{chosen_hero | name: "You"}
+  end
 
   defp trigger_action({room, action}, character) do
     Shell.cmd("clear")
