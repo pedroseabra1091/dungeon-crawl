@@ -1,6 +1,7 @@
 defmodule DungeonCrawl.CLI.HeroChoice do
   alias Mix.Shell.IO, as: Shell
   alias DungeonCrawl.Heroes
+  alias DungeonCrawl.CLI.BaseCommand
 
   require IEx
 
@@ -13,33 +14,19 @@ defmodule DungeonCrawl.CLI.HeroChoice do
 
     heroes
     |> Enum.map(&(&1.name))
-    |> display_options
-    |> generate_question
+    |> BaseCommand.display_options
+    |> BaseCommand.generate_question
     |> Shell.prompt
     |> parse_answer
     |> find_hero_by_index.()
     |> confirm_hero
   end
 
-  defp display_options(options) do
-    options
-    |> Enum.with_index(1)
-    |> Enum.map(fn {option, index} -> Shell.info("#{index} - #{option}") end)
-  end
-
-  defp generate_question(options) do
-    options = Enum.join(1..Enum.count(options), ",")
-    "Which one of these mighty heroes will you pick? [#{options}]"
-  end
-
   defp parse_answer(answer) do
-    pick = case Integer.parse(answer) do
-      {pick, _} -> pick
-      :error -> 0
-    end
+    pick = BaseCommand.parse_answer(answer)
 
     cond do
-      pick in 1..3 -> pick - 1
+      pick in 0..2 -> pick
       true -> randomize_hero()
     end
   end
@@ -47,7 +34,7 @@ defmodule DungeonCrawl.CLI.HeroChoice do
   defp randomize_hero do
     Shell.info("You little prick, trying to find loop holes in my dungeon are you?")
     :timer.sleep 1500
-    Shell.info("Back to the beginning...pick again!")
+    Shell.info("Stop testing my patience! Pick again!")
     :timer.sleep 1500
     start()
   end
