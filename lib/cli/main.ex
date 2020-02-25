@@ -7,8 +7,7 @@ defmodule DungeonCrawl.CLI.Main do
   def start_game do
     welcome_message()
     Shell.prompt("Press enter to continue")
-    hero_choice()
-    move(Room.all)
+    move(hero_choice(), Room.all)
   end
 
   defp welcome_message do
@@ -17,7 +16,7 @@ defmodule DungeonCrawl.CLI.Main do
     Shell.info("You need to survive and find the exit")
   end
 
-  def move(rooms) do
+  def move(character, rooms) do
     Shell.info("You keep moving to the next room")
     Shell.prompt("Press enter to continue")
     Shell.cmd("clear")
@@ -25,7 +24,17 @@ defmodule DungeonCrawl.CLI.Main do
     rooms
     |> Enum.random
     |> RoomActionsChoice.start
+    |> trigger_action(character)
+    |> handle_action_result
   end
 
   defp hero_choice, do: HeroChoice.start()
+
+  defp trigger_action({room, action}, character) do
+    Shell.cmd("clear")
+    room.trigger.run(character, action)
+  end
+
+  defp handle_action_result({_, :exit}), do: Shell.info("Seems somehow you found the exit. Leave this place at once!")
+  defp handle_action_result({character, _}), do: move(character, Room.all)
 end

@@ -11,7 +11,6 @@ defmodule DungeonCrawl.CLI.RoomActionsChoice do
 
     chosen_action =
       room.actions
-      |> Enum.map(&(&1.label))
       |> BaseCommand.display_options
       |> BaseCommand.generate_question
       |> Shell.prompt

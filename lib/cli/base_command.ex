@@ -1,10 +1,12 @@
 defmodule DungeonCrawl.CLI.BaseCommand do
   alias Mix.Shell.IO, as: Shell
+  alias DungeonCrawl.Display
 
   def display_options(options) do
     options
     |> Enum.with_index(1)
-    |> Enum.map(fn {option, index} -> Shell.info("#{index} - #{option}") end)
+    |> Enum.map(fn {option, index} ->
+      Shell.info("#{index} - #{option}") end)
   end
 
   def generate_question(options) do
