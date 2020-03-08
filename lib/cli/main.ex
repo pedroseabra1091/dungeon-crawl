@@ -1,36 +1,34 @@
 defmodule DungeonCrawl.CLI.Main do
-  alias Mix.Shell.IO, as: Shell
   alias DungeonCrawl.CLI.HeroChoice
   alias DungeonCrawl.CLI.RoomActionsChoice
   alias DungeonCrawl.Room
   alias DungeonCrawl.Character
 
-  def start_game do
+  def main(_args \\ []) do
     welcome_message()
-    Shell.prompt("Press enter to continue")
+    ExPrompt.string("Press enter to continue")
     move(hero_choice(), Room.all)
   end
 
   defp welcome_message do
-    Shell.info("== Dungeon Crawl ==")
-    Shell.info("You awake in a dungeon full of monsters")
-    Shell.info("You need to survive and find the exit")
+    IO.puts("\n== Dungeon Crawl ==\n")
+    IO.puts("You awake in a dungeon full of monsters")
+    IO.puts("You need to survive and find the exit")
   end
 
   def move(%{hit_points: 0}, _) do
-    Shell.prompt("")
-    Shell.info("You are severly wounded, you can't keep walking.")
-    Shell.info("With no strength left, you fall onto the ground.")
-    Shell.info("Game over! ")
-    Shell.prompt("")
+    ExPrompt.string("Press enter to continue")
+    IO.puts("\nYou are severly wounded, you can't keep walking.")
+    IO.puts("With no strength left, you fall onto the ground.")
+    IO.puts("Game over! ")
   end
 
   def move(character, rooms) do
-    Shell.info("You keep moving to the next room")
-    Shell.prompt("Press enter to continue")
-    Shell.cmd("clear")
+    IO.puts("\nYou keep moving to the next room")
+    ExPrompt.string("Press enter to continue")
+    IO.puts("\e[H\e[2J")
 
-    Shell.info("#{Character.display_stats(character)}")
+    IO.inspect("#{Character.display_stats(character)}")
 
     rooms
     |> Enum.random
@@ -45,10 +43,10 @@ defmodule DungeonCrawl.CLI.Main do
   end
 
   defp trigger_action({room, action}, character) do
-    Shell.cmd("clear")
+    IO.puts("\e[H\e[2J")
     room.trigger.run(character, action)
   end
 
-  defp handle_action_result({_, :exit}), do: Shell.info("Seems somehow you found the exit. Leave this place at once!")
+  defp handle_action_result({_, :exit}), do: IO.puts("Seems somehow you found the exit. Leave this place at once!")
   defp handle_action_result({character, _}), do: move(character, Room.all)
 end

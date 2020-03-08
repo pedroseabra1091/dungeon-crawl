@@ -1,16 +1,16 @@
 defmodule DungeonCrawl.Room.Triggers.Enemy do
   @behaviour DungeonCrawl.Room.Trigger
 
-  alias Mix.Shell.IO, as: Shell
   alias DungeonCrawl.Enemies
   alias DungeonCrawl.Battle
 
   def run(character, _) do
     enemy = Enum.random(Enemies.all)
 
-    Shell.info(enemy.description)
-    Shell.info("The enemy #{enemy.name} is ready for battle")
-    Shell.info("You were prepared and attack first")
+    IO.puts(enemy.description)
+    IO.puts("The enemy #{enemy.name} is ready for battle")
+    IO.puts("You were prepared and attack first")
+    ExPrompt.string("\nPress enter to start combat")
 
     {updated_char, _enemy} = Battle.fight(character, enemy)
 

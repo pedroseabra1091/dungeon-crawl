@@ -1,11 +1,8 @@
 defmodule DungeonCrawl.CLI.RoomActionsChoice do
-  alias Mix.Shell.IO, as: Shell
   alias DungeonCrawl.CLI.BaseCommand
 
-  require IEx
-
   def start(room) do
-    Shell.info(room.description)
+    IO.puts(room.description)
 
     find_room_actions_by_index = &(Enum.at(room.actions, &1))
 
@@ -13,7 +10,7 @@ defmodule DungeonCrawl.CLI.RoomActionsChoice do
       room.actions
       |> BaseCommand.display_options
       |> BaseCommand.generate_question
-      |> Shell.prompt
+      |> ExPrompt.string
       |> parse_answer
       |> find_room_actions_by_index.()
 
@@ -30,9 +27,9 @@ defmodule DungeonCrawl.CLI.RoomActionsChoice do
   end
 
   def randomize_action do
-    Shell.info("You little prick, trying to find loop holes in my dungeon are you?")
+    IO.puts("You little prick, trying to find loop holes in my dungeon are you?")
     :timer.sleep(1500)
-    Shell.info("I will decide your fate!")
+    IO.puts("I will decide your fate!")
     Enum.random(0..2)
   end
 end

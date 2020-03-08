@@ -28,6 +28,11 @@ defmodule DungeonCrawl.Room do
         actions: [forward()],
         trigger: Enemy
       },
+      %Room{
+        description: "A enemy is blocking your path.",
+        actions: [forward()],
+        trigger: Enemy
+      }
     ]
   end
 end

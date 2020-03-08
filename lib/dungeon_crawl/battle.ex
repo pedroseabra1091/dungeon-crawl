@@ -1,6 +1,5 @@
 defmodule DungeonCrawl.Battle do
   alias DungeonCrawl.Character
-  alias Mix.Shell.IO, as: Shell
 
   def fight(
     char_a = %{hit_points: char_a_hit_points},
@@ -21,14 +20,12 @@ defmodule DungeonCrawl.Battle do
 
     attacker
     |> attack_message(damage)
-    |> Shell.info
+    |> IO.puts
 
     defender_after_attack
     |> receive_message(damage)
-    |> Shell.info
+    |> IO.puts
 
-    
-    Shell.prompt("")
     defender_after_attack
   end
 
@@ -42,10 +39,10 @@ defmodule DungeonCrawl.Battle do
   end
 
   defp receive_message(%{name: "You"} = character, damage) do
-    "You received #{damage} damage. Current HP: #{character.hit_points}"
+    "You received #{damage} damage. Your HP: #{character.hit_points}"
   end
 
   defp receive_message(character, damage) do
-    "#{character.name} receives #{damage} damage. Current HP: #{character.hit_points}"
+    "#{character.name} receives #{damage} damage. #{character.name} HP: #{character.hit_points}"
   end
 end

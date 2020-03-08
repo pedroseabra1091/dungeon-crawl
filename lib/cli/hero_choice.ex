@@ -1,13 +1,10 @@
 defmodule DungeonCrawl.CLI.HeroChoice do
-  alias Mix.Shell.IO, as: Shell
   alias DungeonCrawl.Heroes
   alias DungeonCrawl.CLI.BaseCommand
 
-  require IEx
-
   def start do
-    Shell.cmd("clear")
-    Shell.info("Start by choosing your hero:")
+    IO.puts("\e[H\e[2J")
+    IO.puts("Start by choosing your hero:")
 
     heroes = Heroes.all()
     find_hero_by_index = &(Enum.at(heroes, &1))
@@ -15,7 +12,7 @@ defmodule DungeonCrawl.CLI.HeroChoice do
     heroes
     |> BaseCommand.display_options
     |> BaseCommand.generate_question
-    |> Shell.prompt
+    |> ExPrompt.string
     |> parse_answer
     |> find_hero_by_index.()
     |> confirm_hero
@@ -31,17 +28,18 @@ defmodule DungeonCrawl.CLI.HeroChoice do
   end
 
   defp randomize_hero do
-    Shell.info("You little prick, trying to find loop holes in my dungeon are you?")
+    IO.puts("You little prick, trying to find loop holes in my dungeon are you?")
     :timer.sleep 1500
-    Shell.info("Stop testing my patience! Pick again!")
+    IO.puts("Stop testing my patience! Pick again!")
     :timer.sleep 1500
     start()
   end
 
   defp confirm_hero(chosen_hero) do
-    Shell.cmd("clear")
-    Shell.info(chosen_hero.name)
-    Shell.info(chosen_hero.description)
-    if Shell.yes?("Confirm?"), do: chosen_hero, else: start()
+    IO.puts("\e[H\e[2J")
+    IO.puts(chosen_hero.name)
+    IO.puts(chosen_hero.description)
+
+    if ExPrompt.yes?("Are you sure?"), do: chosen_hero, else: start()
   end
 end
