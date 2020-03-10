@@ -16,7 +16,17 @@ defmodule DungeonCrawl.Character do
     %{target_character | hit_points: new_hit_points}
   end
 
-  def display_stats(character), do: "HP: #{character.hit_points} / #{character.max_hit_points}"
+  def display_hp(character), do: "HP: #{character.hit_points} / #{character.max_hit_points}"
+
+  def display_stats(character) do
+    display_hp(character) <> "\n" <> display_dmg_range(character)
+  end
+
+  defp display_dmg_range(character), do: "Damage Range: #{character.damage_range}"
+
+  defimpl String.Chars, for: Range do
+    def to_string(damage_range), do: damage_range |> inspect
+  end
 
   defimpl String.Chars do
     def to_string(character), do: character.name

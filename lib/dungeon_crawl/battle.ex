@@ -39,10 +39,10 @@ defmodule DungeonCrawl.Battle do
   end
 
   defp receive_message(%{name: "You"} = character, damage) do
-    "You received #{damage} damage. Your HP: #{character.hit_points}"
+    "You received #{damage} damage. Your HP: #{character.hit_points}\n"
   end
 
   defp receive_message(character, damage) do
-    "#{character.name} receives #{damage} damage. #{character.name} HP: #{character.hit_points}"
+    "#{character.name} receives #{damage} damage. #{character.name} HP: #{character.hit_points}\n"
   end
 end

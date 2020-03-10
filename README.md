@@ -1,21 +1,24 @@
 # DungeonCrawl
 
-**TODO: Add description**
+Terminal text based Dungeon Crawl game to pratice topics lectured in Elixir Session #1.
 
-## Installation
+### Features
+— Hero picking system. The system should present 3 classes (e.g: warrior, assassin, wizard);
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `dungeon_crawl` to your list of dependencies in `mix.exs`:
+— Battle system;
 
-```elixir
-def deps do
-  [
-    {:dungeon_crawl, "~> 0.1.0"}
-  ]
-end
-```
+— Forward action that ables players to walk from room to room;
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/dungeon_crawl](https://hexdocs.pm/dungeon_crawl).
+— Rooms with enemies to fight and a exit to trigger the game winning condition.
 
+— Treasure room that when found would increase the hero damage range by 1 (both lower and upper limit). In addition, would add X amount of enemy rooms, where X is the lower damage range limit from the selected hero.
+
+### Start
+
+- download dependencies: `mix deps.get`
+
+- start game: `mix start`
+
+- start game inside a iex instance (debugging): `DungeonCrawl.CLI.Main.main`
+
+- Generate executable: `mix escript.build`

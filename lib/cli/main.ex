@@ -28,12 +28,12 @@ defmodule DungeonCrawl.CLI.Main do
     ExPrompt.string("Press enter to continue")
     IO.puts("\e[H\e[2J")
 
-    IO.inspect("#{Character.display_stats(character)}")
+    IO.inspect("#{Character.display_hp(character)}")
 
     rooms
     |> Enum.random
     |> RoomActionsChoice.start
-    |> trigger_action(character)
+    |> trigger_action(character, rooms)
     |> handle_action_result
   end
 
@@ -42,11 +42,11 @@ defmodule DungeonCrawl.CLI.Main do
     %{chosen_hero | name: "You"}
   end
 
-  defp trigger_action({room, action}, character) do
+  defp trigger_action({room, action}, character, rooms) do
     IO.puts("\e[H\e[2J")
-    room.trigger.run(character, action)
+    room.trigger.run(character, rooms, action)
   end
 
   defp handle_action_result({_, :exit}), do: IO.puts("Seems somehow you found the exit. Leave this place at once!")
-  defp handle_action_result({character, _}), do: move(character, Room.all)
+  defp handle_action_result({character, rooms, _}), do: move(character, rooms)
 end

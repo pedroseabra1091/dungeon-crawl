@@ -11,25 +11,13 @@ defmodule DungeonCrawl.CLI.RoomActionsChoice do
       |> BaseCommand.display_options
       |> BaseCommand.generate_question
       |> ExPrompt.string
-      |> parse_answer
+      |> BaseCommand.parse_answer
+      |> parse_answer(room)
       |> find_room_actions_by_index.()
 
     {room, chosen_action}
   end
 
-  defp parse_answer(answer) do
-    pick = BaseCommand.parse_answer(answer)
-
-    cond do
-      pick in 0..2 -> pick
-      true -> randomize_action()
-    end
-  end
-
-  def randomize_action do
-    IO.puts("You little prick, trying to find loop holes in my dungeon are you?")
-    :timer.sleep(1500)
-    IO.puts("I will decide your fate!")
-    Enum.random(0..2)
-  end
+  defp parse_answer(0, _room), do: 0
+  defp parse_answer(_, room), do: start(room)
 end
