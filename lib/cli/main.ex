@@ -1,6 +1,8 @@
 defmodule DungeonCrawl.CLI.Main do
   alias DungeonCrawl.CLI.HeroChoice
   alias DungeonCrawl.CLI.RoomActionsChoice
+  alias DungeonCrawl.CLI.HeroChoice
+  alias DungeonCrawl.CLI.RoomActionsChoice
   alias DungeonCrawl.Room
   alias DungeonCrawl.Character
 

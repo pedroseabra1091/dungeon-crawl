@@ -6,7 +6,7 @@ defmodule DungeonCrawl.Room do
 
   defstruct description: nil, actions: [], trigger: nil
 
-  def all, do: add_rooms(4, enemy_room()) ++ add_rooms(2, treasure_room()) ++ add_rooms(1, exit_room())
+  def all, do: add_rooms(6, enemy_room()) ++ add_rooms(2, treasure_room()) ++ add_rooms(1, exit_room())
 
   def add_rooms(amount_of_rooms, room_type) do
     Enum.map(0..amount_of_rooms, fn _ -> room_type end)

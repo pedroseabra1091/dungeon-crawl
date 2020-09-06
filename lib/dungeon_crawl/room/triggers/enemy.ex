@@ -9,8 +9,8 @@ defmodule DungeonCrawl.Room.Triggers.Enemy do
 
     IO.puts(enemy.description)
     IO.puts("The enemy #{enemy.name} is ready for battle")
-    IO.puts("You were prepared and attack first")
     ExPrompt.string("\nPress enter to start combat\n")
+    IO.puts("You were prepared and attack first")
 
     {updated_char, _enemy} = Battle.fight(character, enemy)
 
